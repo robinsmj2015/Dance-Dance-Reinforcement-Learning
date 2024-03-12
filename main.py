@@ -7,7 +7,9 @@ import numpy as np
 # Hyperparameters
 actions = np.arange(16)
 memory_size = 10000
-input_size = 5
+
+screen_length = 3
+input_size = screen_length + 2
 min_blanks = 1
 target_update_period = 500
 batch_size = 32
@@ -18,7 +20,7 @@ num_epochs = 1
 
 # Instances
 display = Display()
-agent = Agent(actions, memory_size, input_size, min_blanks, target_update_period, batch_size, discount)
+agent = Agent(actions, memory_size, input_size, min_blanks, target_update_period, batch_size, discount, screen_length)
 
 # The main loop... train then infer, then display our results!
 for i in range(num_epochs):
