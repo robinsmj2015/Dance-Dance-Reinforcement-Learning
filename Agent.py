@@ -13,6 +13,7 @@ class Agent:
     After training its dance skills will be tested in inference mode"""
     def __init__(self, actions, memory_size, input_size, min_blanks, target_update_period, batch_size, discount, screen_length, early_stopping):
         self.epsilon = None  # fraction of time that agent explores when training
+        self.epsilon_drop = None  # how much epsilon decreases by each episode
         self.actions = actions  # actions the agent can choose from
         self.num_actions = len(actions)  # number of possible actions
         self.transitions = deque([], maxlen=memory_size)  # memory
@@ -35,7 +36,7 @@ class Agent:
         summary(self.policy_net, (1, input_size), device="cpu")
 
     # agent undergoes training or is used in inference mode - puts agent in the environment
-    def train_or_infer(self, is_training, num_episodes, epoch_num, epsilon=0):
+    def train_or_infer(self, is_training, num_episodes, epoch_num, epsilon=0, epsilon_drop=0):
         """
         :param is_training:
         :param num_episodes:
@@ -44,6 +45,7 @@ class Agent:
         """
         self.is_training = is_training
         self.epsilon = epsilon
+        self.epsilon_drop = epsilon_drop
         self.episode_rewards = []
         self.episode_losses = []
         print("\n---------------------------- EPOCH {0} of {1} --------------------------------".format(epoch_num, "TRAINING" if is_training else "TESTING"))
@@ -79,7 +81,7 @@ class Agent:
                     # self.display.basic_display(unnormalized_state[2:], color="G" if reward == 1 else "R")
                 self.tracking_num += 1
 
-
+            self.epsilon -= self.epsilon_drop
             # rewards for each episode
             self.episode_rewards.append(self.environment.total_rewards)
             #print("Episode: " + str(i))
