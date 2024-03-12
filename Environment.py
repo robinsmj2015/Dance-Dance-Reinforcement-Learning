@@ -65,7 +65,7 @@ class Environment:
         self.total_rewards += reward
 
         # check if total rewards is less than the max negative reward
-        if self.total_rewards <= -self.early_stopping:
+        if self.total_rewards <= self.early_stopping:
             done = 1
         self.done = done
         self.state = updated_state
