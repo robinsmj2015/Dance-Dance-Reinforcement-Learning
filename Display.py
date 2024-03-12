@@ -74,7 +74,7 @@ class Display:
                         pygame.draw.polygon(window, black, p)
             pygame.display.flip()
             count += 1
-            if count == 30:
+            if count == 60:
                 index += 1
                 count = 0
             if arrows[first].arrow_y >= 450:

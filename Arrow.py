@@ -35,7 +35,7 @@ class Arrow:
 
     def create_down(self, arrow_x, arrow_y):
         points = [
-            (arrow_x - self.width // 2 + 110, arrow_y // 2 - self.length + self.width + 80),
+            (arrow_x - self.width // 2 + 115, arrow_y // 2 - self.length + self.width + 80),
             (arrow_x // 2 - self.width // 2 + 120, arrow_y // 2 + 80),
             (arrow_x // 2 - self.width + 120, arrow_y // 2 + 80),
             (arrow_x // 2 + 120, arrow_y // 2 + self.width + 80),
@@ -50,7 +50,7 @@ class Arrow:
             (arrow_x // 2 + self.length - self.width + 40, arrow_y // 2 - self.width // 2),
             (arrow_x // 2 + 40, arrow_y // 2 - self.width // 2),
             (arrow_x // 2 + 40, arrow_y // 2 - self.width),
-            (arrow_x // 2 - self.length + 40, arrow_y // 2),
+            (arrow_x // 2 - self.length + 70, arrow_y // 2),
             (arrow_x // 2 + 40, arrow_y // 2 + self.width),
             (arrow_x // 2 + 40, arrow_y // 2 + self.width // 2),
             (arrow_x // 2 + self.length - self.width + 40, arrow_y // 2 + self.width // 2)
@@ -59,13 +59,13 @@ class Arrow:
 
     def create_right(self, arrow_x, arrow_y):
         points = [
-            (arrow_x // 2 - self.length + arrow_x + 280, arrow_y // 2 - arrow_x // 2),
-            (arrow_x // 2 + 280, arrow_y // 2 - arrow_x // 2),
-            (arrow_x // 2 + 280, arrow_y // 2 - arrow_x),
-            (arrow_x // 2 + self.length + 280, arrow_y // 2),
-            (arrow_x // 2 + 280, arrow_y // 2 + arrow_x),
-            (arrow_x // 2 + 280, arrow_y // 2 + arrow_x // 2),
-            (arrow_x // 2 - self.length + arrow_x + 280, arrow_y // 2 + arrow_x // 2),
+            (arrow_x // 2 - self.length + self.width + 280, arrow_y // 2 - self.width // 2),
+            (arrow_x // 2 + 280, arrow_y // 2 - self.width // 2),
+            (arrow_x // 2 + 280, arrow_y // 2 - self.width),
+            (arrow_x // 2 + self.length + 250, arrow_y // 2),
+            (arrow_x // 2 + 280, arrow_y // 2 + self.width),
+            (arrow_x // 2 + 280, arrow_y // 2 + self.width // 2),
+            (arrow_x // 2 - self.length +self.width + 280, arrow_y // 2 + self.width // 2),
         ]
         return points
 
