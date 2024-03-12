@@ -14,7 +14,7 @@ min_blanks = 1
 target_update_period = 500
 batch_size = 32
 discount = 0.99
-num_train_episodes = 10
+num_train_episodes = 1000
 num_infer_episodes = 10
 num_epochs = 1
 
