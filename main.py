@@ -15,8 +15,9 @@ target_update_period = 500
 batch_size = 32
 discount = 0.99
 num_train_episodes = 1000
-num_infer_episodes = 2
+num_infer_episodes = 10
 num_epochs = 1
+epsilon = 0.75
 
 # Instances
 display = Display()
@@ -24,7 +25,7 @@ agent = Agent(actions, memory_size, input_size, min_blanks, target_update_period
 
 # The main loop... train then infer, then display our results!
 for i in range(num_epochs):
-    train_rewards, losses = agent.train_or_infer(is_training=True, num_episodes=num_train_episodes, epoch_num=i, epsilon=0.75)
+    train_rewards, losses = agent.train_or_infer(is_training=True, num_episodes=num_train_episodes, epoch_num=i, epsilon=epsilon)
     infer_rewards, _ = agent.train_or_infer(is_training=False, num_episodes=num_infer_episodes, epoch_num=i)
     display.display_results(train_rewards, infer_rewards, losses, i)
 

@@ -89,7 +89,7 @@ class Agent:
                 self.episode_losses.append(self.losses / self.loss_count)
             else:
                 self.display.display_env(self.environment.arrows, actions_taken)
-        print("Completed 100%")
+
         return self.episode_rewards, self.episode_losses
 
     # determines agent's action
