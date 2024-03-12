@@ -31,7 +31,7 @@ class Agent:
         self.episode_losses = []  # the losses for each episode
         self.losses = 0  # cumulative losses (resets after every episode)
         self.loss_count = 0  # how many times the agent was trained
-        # self.print_summary(input_size)
+        self.print_summary(input_size)
 
     def print_summary(self, input_size):
         summary(self.policy_net, (1, input_size), device="cpu")

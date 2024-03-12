@@ -14,11 +14,11 @@ min_blanks = 1
 target_update_period = 500
 batch_size = 32
 discount = 0.99
-num_train_episodes = 10000
+num_train_episodes = 1000
 num_infer_episodes = 10
 num_epochs = 1
 epsilon = 0.75
-epsilon_drop = epsilon / num_train_episodes  # 5 % drop per 1000 episodes
+epsilon_drop = 0  # epsilon / num_train_episodes  # 5 % drop per 1000 episodes
 early_stopping = -150
 
 # Instances
@@ -30,6 +30,7 @@ for i in range(num_epochs):
     train_rewards, losses = agent.train_or_infer(is_training=True, num_episodes=num_train_episodes, epoch_num=i, epsilon=epsilon, epsilon_drop=epsilon_drop)
     infer_rewards, _ = agent.train_or_infer(is_training=False, num_episodes=num_infer_episodes, epoch_num=i)
     display.display_results(train_rewards, infer_rewards, losses, i)
+    print(infer_rewards)
 
 
 # description:
