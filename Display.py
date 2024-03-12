@@ -83,7 +83,7 @@ class Display:
                 run = False
 
         pygame.quit()
-        sys.exit()
+
 
     @staticmethod
     def color_helper(color_code=""):

@@ -54,6 +54,8 @@ class Agent:
             self.environment.reset()
             # for display purposes:
             actions_taken = []
+            if (i + 1) % 50 == 0:
+                print(f'Completed {round(100 * i / num_episodes)}%')
             while not done:
                 state, action, unnormalized_state = self.pick_action()
                 action_list = self.action_to_list(action)
@@ -74,8 +76,9 @@ class Agent:
                 else:
                     pass
                     # Displays for inference mode
-                    self.display.basic_display(unnormalized_state[2:], color="G" if reward == 1 else "R")
+                    # self.display.basic_display(unnormalized_state[2:], color="G" if reward == 1 else "R")
                 self.tracking_num += 1
+
 
             # rewards for each episode
             self.episode_rewards.append(self.environment.total_rewards)
@@ -86,6 +89,7 @@ class Agent:
                 self.episode_losses.append(self.losses / self.loss_count)
             else:
                 self.display.display_env(self.environment.arrows, actions_taken)
+        print("Completed 100%")
         return self.episode_rewards, self.episode_losses
 
     # determines agent's action
