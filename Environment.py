@@ -10,21 +10,24 @@ class Environment:
     '''
 
 
-    def __init__(self, min_blanks, length):
+    def __init__(self, min_blanks, length, early_stopping):
         # actions mapped to the states that they start in and end in
         # any time start and end are the same it is a "not allowed" move
         self.actions = {1: {0: 1, 1: 1, 2: 0, 3: 3}, 2: {0: 2, 1: 0, 2: 2, 3: 3}, 3: {0: 3, 1: 1, 2: 2, 3: 0}}
         self.done = 0
         self.min_blanks = min_blanks
         self.length = length
-        # initialize arrows (hardcoded for now)
+        self.early_stopping = early_stopping
+
         # keep track of which arrow we are at
         self.arrow_index = 0
         self.arrows = self.generate_song(100)
         self.screen = self.update_arrows()
         self.state = State(0, 0, self.screen)
+
         # total rewards
         self.total_rewards = 0
+
         # dictionary which stores the accurate foot position possibilities for each arrow
         self.arrow_dict = {0: [[0, 0]], 1: [[0, 1], [1, 0]], 2: [[0, 2], [2, 0]], 3: [[3, 0]], 4: [[0, 3]],
                            5: [[1, 2], [2, 1]], 6: [[3, 3]]}
@@ -62,7 +65,7 @@ class Environment:
         self.total_rewards += reward
 
         # check if total rewards is less than the max negative reward
-        if self.total_rewards <= -150:
+        if self.total_rewards <= -self.early_stopping:
             done = 1
         self.done = done
         self.state = updated_state
