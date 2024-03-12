@@ -58,11 +58,10 @@ class Display:
 
         arrows = []
         arrow_x = 20 // 2
-        arrow_y = 0
         arrows_dict = {0: "blank", 1: "up", 2: "down", 3: "left", 4: "right", 5: "updown", 6: "leftright"}
         for i in range(len(actions_taken)):
             arrow_type = arrows_dict.get(arrows_generated[i])
-            arrows.append(Arrow(arrow_type, arrow_x, arrow_y, 50, 20, black))
+            arrows.append(Arrow(arrow_type, arrow_x, i * -100, 50, 20, black))
 
         pygame.init()
         window = pygame.display.set_mode((500, 500))
@@ -91,14 +90,11 @@ class Display:
                 if arrows[i].points:
                     arrows[i] = Arrow(arrows[i].arrow_type, arrows[i].arrow_x, arrows[i].arrow_y + 3,
                                       50, 20, arrows[i].color)
-                    points = arrows[i].points
+                    points = arrows[i].update()
                     for p in points:
                         pygame.draw.polygon(window, arrows[i].color, p)
             pygame.display.flip()
-            count += 1
-            if count == 60:
-                index += 1
-                count = 0
+            index
             if arrows[first].arrow_y >= 300:
                 first += 1
             if index >= len(arrows):

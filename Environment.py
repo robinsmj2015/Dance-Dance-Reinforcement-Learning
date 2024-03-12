@@ -91,7 +91,7 @@ class Environment:
         :return: reward
         '''
         # target arrow will always be in first in list of arrows in state
-        target_arrow = state[3]
+        target_arrow = state[2]
 
         # check if agent tried to move off board
         if (state[0] == next_state[0] and action_taken[0] != 0) or (state[1] == next_state[1] and action_taken[1] != 0):
