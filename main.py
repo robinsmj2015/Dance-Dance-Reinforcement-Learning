@@ -14,14 +14,15 @@ min_blanks = 1
 target_update_period = 500
 batch_size = 32
 discount = 0.99
-num_train_episodes = 1000
+num_train_episodes = 10000
 num_infer_episodes = 10
 num_epochs = 1
 epsilon = 0.75
+early_stopping = -150
 
 # Instances
 display = Display()
-agent = Agent(actions, memory_size, input_size, min_blanks, target_update_period, batch_size, discount, screen_length)
+agent = Agent(actions, memory_size, input_size, min_blanks, target_update_period, batch_size, discount, screen_length, early_stopping)
 
 # The main loop... train then infer, then display our results!
 for i in range(num_epochs):
