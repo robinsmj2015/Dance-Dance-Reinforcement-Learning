@@ -41,8 +41,9 @@ class Display:
     @staticmethod
     def check_action(action, arrow):
         # only maps valid arrow combinations
-        action_to_arrow_mapping = {[0, 0]: 0, [0, 1]: 1, [1, 0]: 1, [1,1]: 1, [2, 0]: 2, [0, 2]: 2, [2,2]: 2, [3, 0]: 3, [0, 3]: 4,
-                                   [1, 2]: 5, [2, 1]: 5, [3, 3]: 6}
+        action_to_arrow_mapping = {(0, 0): 0, (0, 1): 1, (1, 0): 1, (1, 1): 1, (2, 0): 2, (0, 2): 2, (2, 2): 2,
+                                   (3, 0): 3, (0, 3): 4,
+                                   (1, 2): 5, (2, 1): 5, (3, 3): 6}
 
         # could be none if invalid arrow combination was picked (ex: [2,3])
         action_to_arrow = action_to_arrow_mapping.get(action)
@@ -61,43 +62,42 @@ class Display:
         arrows_dict = {0: "blank", 1: "up", 2: "down", 3: "left", 4: "right", 5: "updown", 6: "leftright"}
         for i in range(len(actions_taken)):
             arrow_type = arrows_dict.get(arrows_generated[i])
-            arrows.append(Arrow(arrow_type, arrow_x, i * -100, 50, 20, black))
+            if arrow_type == "blank":
+                arrows.append(Arrow(arrow_type, arrow_x, i * -100, 50, 20, white))
+            else:
+                arrows.append(Arrow(arrow_type, arrow_x, i * -100, 50, 20, black))
 
         pygame.init()
         window = pygame.display.set_mode((500, 500))
-
 
         run = True
         clock = pygame.time.Clock()
         # keep track of which arrow is in first position
         first = 0
         index = 0
-        count = 0
         while run:
             window.fill(white)
             clock.tick(50)
-            print(str(arrows[first].arrow_y) + str(index))
+            print(str(arrows[first].arrow_y))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
-            if arrows[first].arrow_y >= 250:
-                correct = self.check_action(actions_taken[first], arrows_generated[first])
+            if arrows[first].arrow_y >= 450:
+                correct = self.check_action(tuple(actions_taken[first]), arrows_generated[first])
                 if correct:
                     arrows[first].color = green
                 else:
                     arrows[first].color = red
-            for i in range(first, index + 1):
-                if arrows[i].points:
-                    arrows[i] = Arrow(arrows[i].arrow_type, arrows[i].arrow_x, arrows[i].arrow_y + 3,
-                                      50, 20, arrows[i].color)
-                    points = arrows[i].update()
+            for a in arrows:
+                points = a.update()
+                if a.points:
                     for p in points:
-                        pygame.draw.polygon(window, arrows[i].color, p)
+                        pygame.draw.polygon(window, a.color, p)
             pygame.display.flip()
-            index
-            if arrows[first].arrow_y >= 300:
+            index += 1
+            if arrows[first].arrow_y >= 475:
                 first += 1
-            if index >= len(arrows):
+            if arrows[len(arrows) - 1].arrow_y >= 475:
                 run = False
 
         pygame.quit()

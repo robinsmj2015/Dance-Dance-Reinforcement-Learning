@@ -15,6 +15,8 @@ class Arrow:
             self.points.append(self.create_left(arrow_x, arrow_y))
         if arrow_type == "right":
             self.points.append(self.create_right(arrow_x, arrow_y))
+        if arrow_type == "blank":
+            self.points.append(self.create_blank(arrow_x, arrow_y))
         if arrow_type == "updown":
             self.points.append(self.create_up(arrow_x, arrow_y))
             self.points.append(self.create_down(arrow_x, arrow_y))
@@ -70,9 +72,19 @@ class Arrow:
         ]
         return points
 
+    def create_blank(self, arrow_x, arrow_y):
+
+        points = [
+            (arrow_x //2 + 380, arrow_y // 2- self.width), (arrow_x // 2+ 380, arrow_y //2), (arrow_x // 2+ 380 + self.length, arrow_y //2),
+            (arrow_x //2 + 380 + self.length, arrow_y //2 - self.width),
+        ]
+        return points
+
     def update(self):
         self.points = []
-        self.arrow_y = self.arrow_y + 3
+        self.arrow_y += 3
+        if self.arrow_type == "blank":
+            self.points.append(self.create_blank(self.arrow_x, self.arrow_y))
         if self.arrow_type == "up":
             self.points.append(self.create_up(self.arrow_x, self.arrow_y))
         if self.arrow_type == "down":
