@@ -88,7 +88,8 @@ class Agent:
             if self.is_training:
                 self.episode_losses.append(self.losses / self.loss_count)
             else:
-                self.display.display_env(self.environment.arrows, actions_taken)
+                if(i == num_episodes - 1):
+                    self.display.display_env(self.environment.arrows, actions_taken)
 
         return self.episode_rewards, self.episode_losses
 
