@@ -7,6 +7,7 @@ import numpy as np
 from Transition import Transition
 from Display import Display
 from torchsummary import summary
+import time
 
 class Agent:
     """Agent is trained to pick an optimal move in the DDRL environment.
@@ -30,7 +31,7 @@ class Agent:
         self.episode_losses = []  # the losses for each episode
         self.losses = 0  # cumulative losses (resets after every episode)
         self.loss_count = 0  # how many times the agent was trained
-        self.print_summary(input_size)
+        # self.print_summary(input_size)
 
     def print_summary(self, input_size):
         summary(self.policy_net, (1, input_size), device="cpu")
@@ -49,6 +50,7 @@ class Agent:
         self.episode_rewards = []
         self.episode_losses = []
         print("\n---------------------------- EPOCH {0} of {1} --------------------------------".format(epoch_num, "TRAINING" if is_training else "TESTING"))
+        start = time.time()
         for i in range(num_episodes):
             done = False
             self.losses = 0
@@ -57,7 +59,9 @@ class Agent:
             # for display purposes:
             actions_taken = []
             if (i + 1) % 50 == 0:
-                print(f'Completed {round(100 * i / num_episodes)}%')
+                end = time.time()
+                elapsed = round(end - start)
+                print(f'Completed {(100 * i / num_episodes):.1f}% in {elapsed} seconds. Epsilon={self.epsilon:.4f}')
             while not done:
                 state, action, unnormalized_state = self.pick_action()
                 action_list = self.action_to_list(action)
