@@ -9,7 +9,6 @@ class Environment:
     Actions: 0 = no-op, 1 = up, 2 = down, 3 = side
     '''
 
-
     def __init__(self, min_blanks, length, early_stopping):
         # actions mapped to the states that they start in and end in
         # any time start and end are the same it is a "not allowed" move
@@ -29,7 +28,7 @@ class Environment:
         self.total_rewards = 0
 
         # dictionary which stores the accurate foot position possibilities for each arrow
-        self.arrow_dict = {0: [[0, 0]], 1: [[0, 1], [1, 0]], 2: [[0, 2], [2, 0]], 3: [[3, 0]], 4: [[0, 3]],
+        self.arrow_dict = {0: [[0, 0]], 1: [[0, 1], [1, 0], [1, 1]], 2: [[0, 2], [2, 0], [2,2]], 3: [[3, 0]], 4: [[0, 3]],
                            5: [[1, 2], [2, 1]], 6: [[3, 3]]}
 
     def update_state(self, action):
@@ -98,7 +97,6 @@ class Environment:
         if (state[0] == next_state[0] and action_taken[0] != 0) or (state[1] == next_state[1] and action_taken[1] != 0):
             return -1
 
-
         # what the correct state should be depending on the given arrow
         target_states = self.arrow_dict.get(target_arrow)
 
@@ -107,7 +105,6 @@ class Environment:
         # check for blank
         if target_arrow == 0 and actual_state == [0, 0]:
             return 0
-
 
         # check if the actual states is one of the correct states
         for lst in target_states:
