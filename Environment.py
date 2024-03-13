@@ -28,7 +28,8 @@ class Environment:
         self.total_rewards = 0
 
         # dictionary which stores the accurate foot position possibilities for each arrow
-        self.arrow_dict = {0: [[0, 0]], 1: [[0, 1], [1, 0], [1, 1]], 2: [[0, 2], [2, 0], [2,2]], 3: [[3, 0]], 4: [[0, 3]],
+        self.arrow_dict = {0: [[0, 0]], 1: [[0, 1], [1, 0], [1, 1]], 2: [[0, 2], [2, 0], [2, 2]], 3: [[3, 0]],
+                           4: [[0, 3]],
                            5: [[1, 2], [2, 1]], 6: [[3, 3]]}
 
     def update_state(self, action):
@@ -38,22 +39,7 @@ class Environment:
         '''
         previous_state = self.state
         # store the new lf state at 0 and new rf state at 1
-        new_feet_state = []
-        for i in range(len(action)):
-            # no-op case
-            if action[i] == 0:
-                new_feet_state.append(self.state.get_array()[i])
-            else:
-                # left foot
-                if i == 0:
-                    prev_foot_state = self.state.lf
-                    updated_foot_state = self.actions.get(action[i]).get(prev_foot_state)
-                    new_feet_state.append(updated_foot_state)
-                # right foot
-                if i == 1:
-                    prev_foot_state = self.state.rf
-                    updated_foot_state = self.actions.get(action[i]).get(prev_foot_state)
-                    new_feet_state.append(updated_foot_state)
+        new_feet_state = self.take_action(action)
 
         # update the arrows for the new state (this may also change it to be a terminal state)
         updated_screen = self.update_arrows()
@@ -139,3 +125,46 @@ class Environment:
         self.state = State(0, 0, self.screen)
         # total rewards
         self.total_rewards = 0
+
+    def take_action(self, action):
+        new_feet_state = []
+        for i in range(len(action)):
+            # no-op case
+            if action[i] == 0:
+                new_feet_state.append(self.state.get_array()[i])
+            else:
+                # left foot
+                if i == 0:
+                    prev_foot_state = self.state.lf
+                    updated_foot_state = self.actions.get(action[i]).get(prev_foot_state)
+                    new_feet_state.append(updated_foot_state)
+                # right foot
+                if i == 1:
+                    prev_foot_state = self.state.rf
+                    updated_foot_state = self.actions.get(action[i]).get(prev_foot_state)
+                    new_feet_state.append(updated_foot_state)
+        return new_feet_state
+
+    def guide_exploration(self, state):
+        '''
+
+        :param state: takes in state as an array
+        :return: the action that should be taken
+        '''
+
+        target_arrow = state[3]
+        # what the correct state should be depending on the given arrow
+        target_states = self.arrow_dict.get(target_arrow)
+
+        actual_state = list(state[:2])
+
+        # check for blank
+        if target_arrow == 0 and actual_state == [0, 0]:
+            return 0
+
+        # check if the actual states is one of the correct states
+        for lst in target_states:
+            if lst == actual_state:
+                return 1
+
+        return -1
