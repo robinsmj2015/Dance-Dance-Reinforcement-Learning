@@ -64,7 +64,7 @@ class Display:
         for i in range(len(actions_taken)):
             arrow_type = arrows_dict.get(arrows_generated[i])
             if arrow_type == "blank":
-                arrows.append(Arrow(arrow_type, arrow_x, i * -100, 50, 20, black))
+                arrows.append(Arrow(arrow_type, arrow_x, i * -100, 50, 20, white))
             else:
                 arrows.append(Arrow(arrow_type, arrow_x, i * -100, 50, 20, black))
 

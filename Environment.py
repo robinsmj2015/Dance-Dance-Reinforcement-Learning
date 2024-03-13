@@ -90,8 +90,8 @@ class Environment:
         :param action_taken:
         :return: reward
         '''
-        # target arrow will always be in first in list of arrows in state
-        target_arrow = state[2]
+        # target arrow will be the second arrow in state (next arrow that should be hit)
+        target_arrow = state[3]
 
         # check if agent tried to move off board
         if (state[0] == next_state[0] and action_taken[0] != 0) or (state[1] == next_state[1] and action_taken[1] != 0):

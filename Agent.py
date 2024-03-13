@@ -54,6 +54,8 @@ class Agent:
         print("\n---------------------------- EPOCH {0} of {1} --------------------------------".format(epoch_num, "TRAINING" if is_training else "TESTING"))
         start = time.time()
         for i in range(num_episodes):
+            if self.epsilon <= 0.4:
+                self.epsilon = epsilon
             done = False
             self.losses = 0
             self.loss_count = 0
@@ -96,6 +98,7 @@ class Agent:
             if self.is_training:
                 self.episode_losses.append(self.losses / self.loss_count)
             else:
+                print(actions_taken)
                 if(i == num_episodes - 1):
                     self.display.display_env(self.environment.arrows, actions_taken)
 
