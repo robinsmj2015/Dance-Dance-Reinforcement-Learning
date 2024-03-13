@@ -58,7 +58,6 @@ class Display:
         red = (255, 0, 0)
         green = (0, 255, 0)
 
-
         arrows = []
         arrow_x = 10
         arrows_dict = {0: "blank", 1: "up", 2: "down", 3: "left", 4: "right", 5: "updown", 6: "leftright"}
@@ -80,16 +79,17 @@ class Display:
         while run:
             window.fill(white)
             clock.tick(50)
-            print(str(arrows[first].arrow_y))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
+            # check if arrow is correct
             if arrows[first].arrow_y >= 450:
                 correct = self.check_action(tuple(actions_taken[first]), arrows_generated[first])
                 if correct:
                     arrows[first].color = green
                 else:
                     arrows[first].color = red
+            #  update arrow positions and draw them on screen
             for a in arrows:
                 points = a.update()
                 if a.points:
