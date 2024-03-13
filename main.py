@@ -17,13 +17,14 @@ discount = 0.99
 num_train_episodes = 1000
 num_infer_episodes = 10
 num_epochs = 1
-epsilon = 0.90
-epsilon_drop = 0.1 # epsilon / num_train_episodes  # 5 % drop per 1000 episodes
+epsilon = 0.9
+epsilon_drop = 0.0003  # epsilon / num_train_episodes  # 5 % drop per 1000 episodes
 early_stopping = -150
+guided_exploration = True
 
 # Instances
 display = Display()
-agent = Agent(actions, memory_size, input_size, min_blanks, target_update_period, batch_size, discount, screen_length, early_stopping)
+agent = Agent(actions, memory_size, input_size, min_blanks, target_update_period, batch_size, discount, screen_length, early_stopping, guided_exploration)
 
 # The main loop... train then infer, then display our results!
 for i in range(num_epochs):

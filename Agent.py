@@ -12,7 +12,7 @@ import time
 class Agent:
     """Agent is trained to pick an optimal move in the DDRL environment.
     After training its dance skills will be tested in inference mode"""
-    def __init__(self, actions, memory_size, input_size, min_blanks, target_update_period, batch_size, discount, screen_length, early_stopping):
+    def __init__(self, actions, memory_size, input_size, min_blanks, target_update_period, batch_size, discount, screen_length, early_stopping, guided_exploration):
         self.epsilon = None  # fraction of time that agent explores when training
         self.epsilon_drop = None  # how much epsilon decreases by each episode
         self.actions = actions  # actions the agent can choose from
@@ -31,6 +31,7 @@ class Agent:
         self.episode_losses = []  # the losses for each episode
         self.losses = 0  # cumulative losses (resets after every episode)
         self.loss_count = 0  # how many times the agent was trained
+        self.guided_exploration = guided_exploration
         self.print_summary(input_size)
 
     def print_summary(self, input_size):
@@ -114,7 +115,10 @@ class Agent:
         state = self.normalize(state)
         # exploration or exploitation
         if np.random.rand() < self.epsilon:
-            action = np.random.randint(0, self.num_actions - 1)
+            if self.guided_exploration:
+                action = self.environment.guide_exploration(unnormalized_state)
+            else:
+                action = np.random.randint(0, self.num_actions - 1)
         else:
             action = np.argmax(self.target_net.forward(state).detach()).item()
         return state, action, unnormalized_state
@@ -141,7 +145,7 @@ class Agent:
         # converting the above to tensors
         state_primes = torch.tensor(np.array(state_primes), requires_grad=False, dtype=torch.float)
         states = torch.tensor(np.array(states), dtype=torch.float, requires_grad=True)
-        actions = torch.tensor(actions, requires_grad=False, dtype=torch.int64)
+        actions = torch.tensor(np.array(actions), requires_grad=False, dtype=torch.int64)
         rewards = np.array(rewards)
 
         # labels for the policy network
@@ -178,7 +182,6 @@ class Agent:
         :return: state
         """
         state = state.astype(float)
-
         num_foot_positions = 4
         num_screen_positions = 7
         #  normalize feet

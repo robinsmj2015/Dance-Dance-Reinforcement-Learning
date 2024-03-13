@@ -14,10 +14,14 @@ class Display:
     @staticmethod
     def display_results(total_train_rewards, total_infer_rewards, losses, epoch):
         fig, (ax0, ax1, ax2) = plt.subplots(nrows=1, ncols=3)
-        ax0.plot(np.arange(len(total_train_rewards)), total_train_rewards, color="blue", label="Training rewards")
-        ax0.set(xlabel="episodes", ylabel="total rewards", title="Train Rewards")
+        train_to_plot = []
+        for i in range(len(total_train_rewards) // 100):
+            train_to_plot.append(np.mean(total_train_rewards[i:i + 100]))
+
+        ax0.plot(np.arange(len(train_to_plot)), train_to_plot, color="blue", label="Training rewards")
+        ax0.set(xlabel="episodes (in hundreds)", ylabel="total rewards", title="Train Rewards (Average {0:.1f})".format(np.mean(train_to_plot)))
         ax1.plot(np.arange(len(total_infer_rewards)), total_infer_rewards, color="green", label="Inference rewards")
-        ax1.set(xlabel="episodes", ylabel="total rewards", title="Inference Reward")
+        ax1.set(xlabel="episodes", ylabel="total rewards", title="Inference Reward (Average {0:.1f})".format(np.mean(total_infer_rewards)))
         ax2.plot(np.arange(len(losses)), losses, color="orange", label="Training loss")
         ax2.set(xlabel="episodes", ylabel="Huber Loss", title="Huber Loss")
         ax0.legend()
