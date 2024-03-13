@@ -39,6 +39,8 @@ class Agent:
     # agent undergoes training or is used in inference mode - puts agent in the environment
     def train_or_infer(self, is_training, num_episodes, epoch_num, epsilon=0, epsilon_drop=0):
         """
+        :param epsilon_drop:
+        :param epoch_num:
         :param is_training:
         :param num_episodes:
         :param epsilon:
