@@ -158,13 +158,5 @@ class Environment:
 
         actual_state = list(state[:2])
 
-        # check for blank
-        if target_arrow == 0 and actual_state == [0, 0]:
-            return 0
 
-        # check if the actual states is one of the correct states
-        for lst in target_states:
-            if lst == actual_state:
-                return 1
 
-        return -1
