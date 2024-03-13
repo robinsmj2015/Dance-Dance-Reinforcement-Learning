@@ -52,13 +52,15 @@ class Display:
         return False
 
     def display_env(self, arrows_generated, actions_taken):
+        # initialize the colors
         white = (255, 255, 255)
         black = (0, 0, 0)
         red = (255, 0, 0)
         green = (0, 255, 0)
 
+
         arrows = []
-        arrow_x = 20 // 2
+        arrow_x = 10
         arrows_dict = {0: "blank", 1: "up", 2: "down", 3: "left", 4: "right", 5: "updown", 6: "leftright"}
         for i in range(len(actions_taken)):
             arrow_type = arrows_dict.get(arrows_generated[i])
