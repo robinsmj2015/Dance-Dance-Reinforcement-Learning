@@ -8,11 +8,12 @@ from Transition import Transition
 from Display import Display
 from torchsummary import summary
 import time
+import scipy
 
 class Agent:
     """Agent is trained to pick an optimal move in the DDRL environment.
     After training its dance skills will be tested in inference mode"""
-    def __init__(self, actions, memory_size, input_size, min_blanks, target_update_period, batch_size, discount, screen_length, early_stopping, guided_exploration):
+    def __init__(self, actions, memory_size, input_size, min_blanks, target_update_period, batch_size, discount, screen_length, early_stopping, use_softmax):
         self.epsilon = None  # fraction of time that agent explores when training
         self.epsilon_drop = None  # how much epsilon decreases by each episode
         self.actions = actions  # actions the agent can choose from
@@ -31,7 +32,7 @@ class Agent:
         self.episode_losses = []  # the losses for each episode
         self.losses = 0  # cumulative losses (resets after every episode)
         self.loss_count = 0  # how many times the agent was trained
-        self.guided_exploration = guided_exploration
+        self.use_softmax = use_softmax
         self.print_summary(input_size)
 
     def print_summary(self, input_size):
@@ -115,13 +116,20 @@ class Agent:
         state = self.normalize(state)
         # exploration or exploitation
         if np.random.rand() < self.epsilon:
-            if self.guided_exploration:
-                action = self.environment.guide_exploration(unnormalized_state)
-            else:
-                action = np.random.randint(0, self.num_actions - 1)
+            action = np.random.randint(0, self.num_actions - 1)
         else:
-            action = np.argmax(self.target_net.forward(state).detach()).item()
+            qs = self.target_net.forward(state).detach()
+            if self.use_softmax:
+                softmax_qs = self.make_softmax(qs)
+                action = (np.random.choice(a=np.arange(self.num_actions), p=softmax_qs, size=1)).item()
+            else:
+                action = np.argmax(qs).item()
         return state, action, unnormalized_state
+
+    @staticmethod
+    def make_softmax(qs):
+        softmax_qs = scipy.special.softmax(qs)
+        return softmax_qs
 
     @staticmethod
     def action_to_list(action):

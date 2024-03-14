@@ -145,18 +145,4 @@ class Environment:
                     new_feet_state.append(updated_foot_state)
         return new_feet_state
 
-    def guide_exploration(self, state):
-        '''
-
-        :param state: takes in state as an array
-        :return: the action that should be taken
-        '''
-
-        target_arrow = state[3]
-        # what the correct state should be depending on the given arrow
-        target_states = self.arrow_dict.get(target_arrow)
-
-        actual_state = list(state[:2])
-
-
 
