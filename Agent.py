@@ -13,7 +13,7 @@ import scipy
 class Agent:
     """Agent is trained to pick an optimal move in the DDRL environment.
     After training its dance skills will be tested in inference mode"""
-    def __init__(self, actions, memory_size, input_size, min_blanks, target_update_period, batch_size, discount, screen_length, early_stopping, use_softmax):
+    def __init__(self, actions, memory_size, input_size, min_blanks, target_update_period, batch_size, discount, screen_length, use_softmax):
         self.epsilon = None  # fraction of time that agent explores when training
         self.epsilon_drop = None  # how much epsilon decreases by each episode
         self.actions = actions  # actions the agent can choose from
@@ -23,7 +23,7 @@ class Agent:
         self.policy_net = Network(input_size, self.num_actions)  # instance of network
         self.target_net = Network(input_size, self.num_actions)  # instance of network
         self.tracking_num = 0  # tracking number - essentially step number but does not reset after each episode
-        self.environment = Environment(min_blanks, screen_length, early_stopping)  # instance of the environment class
+        self.environment = Environment(min_blanks, screen_length)  # instance of the environment class
         self.display = Display()  # instance of display
         self.target_update_period = target_update_period  # C - update period of target network
         self.discount = discount  # discount factor

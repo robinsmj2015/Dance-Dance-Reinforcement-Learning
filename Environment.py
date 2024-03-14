@@ -9,14 +9,14 @@ class Environment:
     Actions: 0 = no-op, 1 = up, 2 = down, 3 = side
     '''
 
-    def __init__(self, min_blanks, length, early_stopping):
+    def __init__(self, min_blanks, length):
         # actions mapped to the states that they start in and end in
         # any time start and end are the same it is a "not allowed" move
         self.actions = {1: {0: 1, 1: 1, 2: 0, 3: 3}, 2: {0: 2, 1: 0, 2: 2, 3: 3}, 3: {0: 3, 1: 1, 2: 2, 3: 0}}
         self.done = 0
         self.min_blanks = min_blanks
         self.length = length
-        self.early_stopping = early_stopping
+
 
         # keep track of which arrow we are at
         self.arrow_index = 0
@@ -50,8 +50,7 @@ class Environment:
         self.total_rewards += reward
 
         # check if total rewards is less than the max negative reward
-        if self.total_rewards <= self.early_stopping:
-            done = 1
+
         self.done = done
         self.state = updated_state
         return updated_state, reward, done

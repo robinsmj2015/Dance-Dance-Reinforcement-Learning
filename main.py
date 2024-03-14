@@ -19,13 +19,12 @@ num_infer_episodes = 100
 num_epochs = 1
 epsilon = 0  #.9
 epsilon_drop = 0  # 0.000005  # epsilon drop
-early_stopping = -150
 use_softmax = True
 
 
 # Instances
 display = Display()
-agent = Agent(actions, memory_size, input_size, min_blanks, target_update_period, batch_size, discount, screen_length, early_stopping, use_softmax)
+agent = Agent(actions, memory_size, input_size, min_blanks, target_update_period, batch_size, discount, screen_length, use_softmax)
 
 # The main loop... train then infer, then display our results!
 for i in range(num_epochs):
