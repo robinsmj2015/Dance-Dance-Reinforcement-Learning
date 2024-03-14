@@ -155,7 +155,7 @@ class Environment:
         for s in target_states:
             action = []
             # start by checking if it should take no op
-            lf_next = self.actions.get(0).get(lf)
+            lf_next = lf
             act_to_try = 0
             # iterate through all possible actions until left foot is in correct position
             while lf_next != s[0]:
@@ -165,7 +165,7 @@ class Environment:
             action.append(act_to_try)
 
             # start by checking if it should take no op
-            rf_next = self.actions.get(0).get(rf)
+            rf_next = rf
             act_to_try = 0
             # iterate through all possible actions until right foot is in correct position
             while rf_next != s[1]:
