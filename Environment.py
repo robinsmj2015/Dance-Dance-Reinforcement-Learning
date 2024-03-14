@@ -1,5 +1,6 @@
 import numpy as np
 from State import State
+import random
 
 
 class Environment:
@@ -143,5 +144,40 @@ class Environment:
                     updated_foot_state = self.actions.get(action[i]).get(prev_foot_state)
                     new_feet_state.append(updated_foot_state)
         return new_feet_state
+
+    def guide_explore(self, state):
+        lf = state[0]
+        rf = state[1]
+        target_arrow = state[3]
+        target_states = self.arrow_dict.get(target_arrow)
+
+        #iterate through every possible good state (should only ever be 3 max)
+        for s in target_states:
+            action = []
+            # start by checking if it should take no op
+            lf_next = self.actions.get(0).get(lf)
+            act_to_try = 0
+            # iterate through all possible actions until left foot is in correct position
+            while lf_next != s[0]:
+                act_to_try += 1
+                lf_next = self.actions.get(act_to_try).get(lf)
+            # add the action that matched to the list
+            action.append(act_to_try)
+
+            # start by checking if it should take no op
+            rf_next = self.actions.get(0).get(rf)
+            act_to_try = 0
+            # iterate through all possible actions until right foot is in correct position
+            while rf_next != s[1]:
+                act_to_try += 1
+                rf_next = self.actions.get(act_to_try).get(rf)
+            # add the action that matched to the list
+            action.append(act_to_try)
+            # return action if good state is reached
+            if [lf_next, rf_next] == s:
+                return action
+
+        # if no good states can be reached, return random action
+        return [random.randint(0, 3), random.randint(0, 3)]
 
 
