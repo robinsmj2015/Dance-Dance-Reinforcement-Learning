@@ -10,6 +10,7 @@ from torchsummary import summary
 import time
 import scipy
 
+
 class Agent:
     """Agent is trained to pick an optimal move in the DDRL environment.
     After training its dance skills will be tested in inference mode"""
@@ -32,8 +33,8 @@ class Agent:
         self.episode_losses = []  # the losses for each episode
         self.losses = 0  # cumulative losses (resets after every episode)
         self.loss_count = 0  # how many times the agent was trained
-        self.use_softmax = use_softmax
-        self.print_summary(input_size)
+        self.use_softmax = use_softmax  # to use softmax draws rather than greedy choice
+        self.print_summary(input_size)  # prints the model architecture
 
     def print_summary(self, input_size):
         summary(self.policy_net, (1, input_size), device="cpu")
@@ -85,10 +86,6 @@ class Agent:
                         loss = self.update_policy_network()
                         self.losses += loss.detach()
                         self.loss_count += 1
-                else:
-                    pass
-                    # Displays for inference mode
-                    # self.display.basic_display(unnormalized_state[2:], color="G" if reward == 1 else "R")
                 self.tracking_num += 1
 
             self.epsilon -= self.epsilon_drop
@@ -135,6 +132,11 @@ class Agent:
     @staticmethod
     def action_to_list(action):
         return [action // 4, action % 4]
+
+    @staticmethod
+    def list_to_action(action):
+        action_int = np.sum(np.array(action) * 4).item()
+        return action_int
 
     # adds a transition to the experience replay memory
     def add_transition(self, state, action, reward, next_state, done):

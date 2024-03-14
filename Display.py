@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pygame
 from Arrow import Arrow
-import sys
 
 
 class Display:
@@ -16,10 +15,12 @@ class Display:
         fig, (ax0, ax1, ax2) = plt.subplots(nrows=1, ncols=3)
         train_to_plot = []
         loss_to_plot = []
+        # averaging over 100 episodes for better display
         for i in range(len(total_train_rewards) // 100):
             train_to_plot.append(np.mean(total_train_rewards[i:i + 100]))
             loss_to_plot.append(np.mean(losses[i: i + 100]))
 
+        # the plots
         ax0.plot(np.arange(len(train_to_plot)), train_to_plot, color="blue", label="Training rewards")
         ax0.set(xlabel="episodes (in hundreds)", ylabel="total rewards", title="Train Rewards (Average {0:.1f})".format(np.mean(train_to_plot)))
         ax1.plot(np.arange(len(total_infer_rewards)), total_infer_rewards, color="green", label="Inference rewards")
@@ -31,18 +32,9 @@ class Display:
         ax2.legend()
         fig.suptitle("DDRL (epoch {0}): start_epsilon={1}, epsilon_drop={2}, softmax={3}".format(epoch, epsilon, epsilon_drop, softmax))
         plt.tight_layout()
-        # fig.canvas.manager.full_screen_toggle()
         plt.show()
 
-    def basic_display(self, screen, color):
-        # direction of screen
-        # _, U, D, L, R, UD, LR
-        print("--------------------------------")
-        conv_dict = {0: "_", 1: "^", 2: "v", 3: "<", 4: ">", 5: "^v", 6: "<>"}
-        print(self.color_helper(color) + conv_dict.get(screen[0]) + self.color_helper(""))
-        for i in range(1, len(screen)):
-            to_print = self.color_helper("B") + conv_dict.get(screen[i]) + self.color_helper("")
-            print(to_print)
+
 
     @staticmethod
     def check_action(action, arrow):

@@ -6,4 +6,4 @@ class Transition:
         self.a = a  # action
         self.r = r  # reward
         self.s_prime = s_prime  # next state
-        self.done = done  # is next state terminal
+        self.done = done  # if the next state is terminal
