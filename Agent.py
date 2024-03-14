@@ -14,7 +14,7 @@ import scipy
 class Agent:
     """Agent is trained to pick an optimal move in the DDRL environment.
     After training its dance skills will be tested in inference mode"""
-    def __init__(self, actions, memory_size, input_size, min_blanks, target_update_period, batch_size, discount, screen_length, use_softmax):
+    def __init__(self, actions, memory_size, input_size, min_blanks, target_update_period, batch_size, discount, screen_length, use_softmax, guided_exploration):
         self.epsilon = None  # fraction of time that agent explores when training
         self.epsilon_drop = None  # how much epsilon decreases by each episode
         self.actions = actions  # actions the agent can choose from
@@ -34,6 +34,7 @@ class Agent:
         self.losses = 0  # cumulative losses (resets after every episode)
         self.loss_count = 0  # how many times the agent was trained
         self.use_softmax = use_softmax  # to use softmax draws rather than greedy choice
+        self.guided_exploration = guided_exploration
         self.print_summary(input_size)  # prints the model architecture
 
     def print_summary(self, input_size):
@@ -114,7 +115,11 @@ class Agent:
         state = self.normalize(state)
         # exploration or exploitation
         if np.random.rand() < self.epsilon:
-            action = np.random.randint(0, self.num_actions - 1)
+            if self.guided_exploration:
+                action = self.environment.guide_explore(unnormalized_state)
+                action = self.list_to_action(action)
+            else:
+                action = np.random.randint(0, self.num_actions - 1)
         else:
             qs = self.target_net.forward(state).detach()
             if self.use_softmax:

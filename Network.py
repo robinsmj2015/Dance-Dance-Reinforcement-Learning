@@ -18,9 +18,9 @@ class Network(Module):
 
     # forward propagation with ReLU activation
     def forward(self, x):
+        # convert inputs to tensor if they are not already
         if type(x) is np.ndarray:
             x = torch.as_tensor(x.copy(), dtype=torch.float)
-
         for layer in [self.fc0, self.fc1]:
             x = F.relu(layer(x))
         return self.fc2(x)

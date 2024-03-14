@@ -18,10 +18,11 @@ num_epochs = 1
 epsilon = 0  # starting epsilon
 epsilon_drop = 0  # epsilon drop per episode
 use_softmax = True  # to use softmax draws rather than greedy choice
+guided_exploration = True
 
 # Instances
 display = Display()
-agent = Agent(actions, memory_size, input_size, min_blanks, target_update_period, batch_size, discount, screen_length, use_softmax)
+agent = Agent(actions, memory_size, input_size, min_blanks, target_update_period, batch_size, discount, screen_length, use_softmax, guided_exploration)
 
 # The main loop... train then infer, then display our results!
 for i in range(num_epochs):

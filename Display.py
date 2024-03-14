@@ -34,8 +34,6 @@ class Display:
         plt.tight_layout()
         plt.show()
 
-
-
     @staticmethod
     def check_action(action, arrow):
         # only maps valid arrow combinations
