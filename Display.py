@@ -12,7 +12,7 @@ class Display:
         pass
 
     @staticmethod
-    def display_results(total_train_rewards, total_infer_rewards, losses, epoch):
+    def display_results(total_train_rewards, total_infer_rewards, losses, epoch, epsilon, epsilon_drop, softmax):
         fig, (ax0, ax1, ax2) = plt.subplots(nrows=1, ncols=3)
         train_to_plot = []
         loss_to_plot = []
@@ -29,7 +29,7 @@ class Display:
         ax0.legend()
         ax1.legend()
         ax2.legend()
-        fig.suptitle("DDRL (epoch {0})".format(epoch))
+        fig.suptitle("DDRL (epoch {0}): start_epsilon={1}, epsilon_drop={2}, softmax={3}".format(epoch, epsilon, epsilon_drop, softmax))
         plt.tight_layout()
         # fig.canvas.manager.full_screen_toggle()
         plt.show()

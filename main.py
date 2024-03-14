@@ -14,7 +14,7 @@ min_blanks = 1
 target_update_period = 500
 batch_size = 32
 discount = 0.99
-num_train_episodes = 20000
+num_train_episodes = 300
 num_infer_episodes = 100
 num_epochs = 1
 epsilon = 0  #.9
@@ -30,7 +30,7 @@ agent = Agent(actions, memory_size, input_size, min_blanks, target_update_period
 for i in range(num_epochs):
     train_rewards, losses = agent.train_or_infer(is_training=True, num_episodes=num_train_episodes, epoch_num=i, epsilon=epsilon, epsilon_drop=epsilon_drop)
     infer_rewards, _ = agent.train_or_infer(is_training=False, num_episodes=num_infer_episodes, epoch_num=i)
-    display.display_results(train_rewards, infer_rewards, losses, i)
+    display.display_results(train_rewards, infer_rewards, losses, i, epsilon, epsilon_drop, use_softmax)
     print("Inference scores:", infer_rewards)
     print("Mean inference score:", np.array(infer_rewards).mean())
 
