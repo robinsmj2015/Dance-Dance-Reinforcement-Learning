@@ -58,7 +58,7 @@ class Agent:
         print("\n---------------------------- EPOCH {0} of {1} --------------------------------".format(epoch_num, "TRAINING" if is_training else "TESTING"))
         start = time.time()
         for i in range(num_episodes):
-            if self.epsilon <= 0.4:
+            if self.epsilon <= 0.19:
                 self.epsilon = epsilon
             done = False
             self.losses = 0
@@ -92,16 +92,13 @@ class Agent:
             self.epsilon -= self.epsilon_drop
             # rewards for each episode
             self.episode_rewards.append(self.environment.total_rewards)
-            #print("Episode: " + str(i))
-            #print("Total Rewards: " + str(self.environment.total_rewards))
             # tracks the average loss
             if self.is_training:
                 self.episode_losses.append(self.losses / self.loss_count)
             else:
                 pass
-                #print(actions_taken)
-                #if(i == num_episodes - 1):
-                    #self.display.display_env(self.environment.arrows, actions_taken)
+                if(i == num_episodes - 1):
+                    self.display.display_env(self.environment.arrows, actions_taken)
 
         return self.episode_rewards, self.episode_losses
 

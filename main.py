@@ -12,12 +12,12 @@ min_blanks = 1  # the min number of blanks that must occur between each arrow
 target_update_period = 500  # C
 batch_size = 32
 discount = 0.99  # discount factor
-num_train_episodes = 1000
-num_infer_episodes = 10
+num_train_episodes = 3000
+num_infer_episodes = 100
 num_epochs = 1
 epsilon = 0.9 # starting epsilon
-epsilon_drop = 0.05  # epsilon drop per episode
-use_softmax = True  # to use softmax draws rather than greedy choice
+epsilon_drop = 0.001  # epsilon drop per episode
+use_softmax = False  # to use softmax draws rather than greedy choice
 guided_exploration = True
 
 # Instances
