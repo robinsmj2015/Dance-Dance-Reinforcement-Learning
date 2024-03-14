@@ -142,7 +142,7 @@ class Agent:
 
     @staticmethod
     def list_to_action(action):
-        action_int = np.sum(np.array(action) * 4).item()
+        action_int = action[0] * 4 + action[1]
         return action_int
 
     # adds a transition to the experience replay memory

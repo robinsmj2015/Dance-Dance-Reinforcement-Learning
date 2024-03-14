@@ -136,11 +136,15 @@ class Environment:
                 # left foot
                 if i == 0:
                     prev_foot_state = self.state.lf
+                    if type(prev_foot_state) == None:
+                        print("error")
                     updated_foot_state = self.actions.get(action[i]).get(prev_foot_state)
                     new_feet_state.append(updated_foot_state)
                 # right foot
                 if i == 1:
                     prev_foot_state = self.state.rf
+                    if type(prev_foot_state) == None:
+                        print("error")
                     updated_foot_state = self.actions.get(action[i]).get(prev_foot_state)
                     new_feet_state.append(updated_foot_state)
         return new_feet_state
@@ -158,7 +162,7 @@ class Environment:
             lf_next = lf
             act_to_try = 0
             # iterate through all possible actions until left foot is in correct position
-            while lf_next != s[0]:
+            while lf_next != s[0] and act_to_try < 3:
                 act_to_try += 1
                 lf_next = self.actions.get(act_to_try).get(lf)
             # add the action that matched to the list
@@ -168,7 +172,7 @@ class Environment:
             rf_next = rf
             act_to_try = 0
             # iterate through all possible actions until right foot is in correct position
-            while rf_next != s[1]:
+            while rf_next != s[1] and act_to_try < 3:
                 act_to_try += 1
                 rf_next = self.actions.get(act_to_try).get(rf)
             # add the action that matched to the list
