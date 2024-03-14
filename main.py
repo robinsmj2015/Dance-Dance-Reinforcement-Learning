@@ -14,11 +14,11 @@ min_blanks = 1
 target_update_period = 500
 batch_size = 32
 discount = 0.99
-num_train_episodes = 1000
-num_infer_episodes = 10
+num_train_episodes = 100000
+num_infer_episodes = 100
 num_epochs = 1
-epsilon = 0.1
-epsilon_drop = 0.0003  # epsilon drop
+epsilon = 1
+epsilon_drop = 0.000005  # epsilon drop
 early_stopping = -150
 use_softmax = True
 
