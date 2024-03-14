@@ -8,17 +8,17 @@ import numpy as np
 actions = np.arange(16)
 memory_size = 10000
 
-screen_length = 3
+screen_length = 3  # how
 input_size = screen_length + 2
 min_blanks = 1
 target_update_period = 500
 batch_size = 32
 discount = 0.99
-num_train_episodes = 100000
+num_train_episodes = 20000
 num_infer_episodes = 100
 num_epochs = 1
-epsilon = 1
-epsilon_drop = 0.000005  # epsilon drop
+epsilon = 0  #.9
+epsilon_drop = 0  # 0.000005  # epsilon drop
 early_stopping = -150
 use_softmax = True
 
