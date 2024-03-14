@@ -5,8 +5,8 @@ from torch.nn import Linear
 import torch.nn.functional as F
 
 
-"The network for both policy and target networks"
 class Network(Module):
+    """The network for both policy and target networks"""
     def __init__(self, input_size, num_actions):
         super(Network, self).__init__()
         # the FC layers

@@ -115,6 +115,7 @@ class Agent:
         state = self.normalize(state)
         # exploration or exploitation
         if np.random.rand() < self.epsilon:
+            # guided exploration or random choice
             if self.guided_exploration:
                 action = self.environment.guide_explore(unnormalized_state)
                 action = self.list_to_action(action)
@@ -122,6 +123,7 @@ class Agent:
                 action = np.random.randint(0, self.num_actions - 1)
         else:
             qs = self.target_net.forward(state).detach()
+            # softmax or greedy choice
             if self.use_softmax:
                 softmax_qs = self.make_softmax(qs)
                 action = (np.random.choice(a=np.arange(self.num_actions), p=softmax_qs, size=1)).item()
