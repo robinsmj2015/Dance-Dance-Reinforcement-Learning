@@ -75,8 +75,8 @@ class Arrow:
     def create_blank(self, arrow_x, arrow_y):
 
         points = [
-            (arrow_x // 2 + 380, arrow_y // 2 - self.width + 5), (arrow_x // 2 + 380, arrow_y //2), (arrow_x // 2+ 380 + self.length, arrow_y //2),
-            (arrow_x // 2 + 380 + self.length, arrow_y // 2 - self.width + 5),
+            (arrow_x // 2 + 380, arrow_y // 2 - self.width + 10), (arrow_x // 2 + 380, arrow_y //2), (arrow_x // 2+ 380 + self.length, arrow_y //2),
+            (arrow_x // 2 + 380 + self.length, arrow_y // 2 - self.width + 10),
         ]
         return points
 
