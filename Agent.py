@@ -65,7 +65,7 @@ class Agent:
             self.loss_count = 0
             self.environment.reset()
             # for display purposes:
-            actions_taken = []
+            rewards_earned = []
             if (i + 1) % 50 == 0:
                 end = time.time()
                 elapsed = round(end - start)
@@ -73,8 +73,8 @@ class Agent:
             while not done:
                 state, action, unnormalized_state = self.pick_action()
                 action_list = self.action_to_list(action)
-                actions_taken.append(action_list)
                 next_state, reward, done = self.environment.update_state(action_list)
+                rewards_earned.append(reward)
 
                 if self.is_training:
                     # add to memory
@@ -98,7 +98,7 @@ class Agent:
             else:
                 pass
                 if(i == num_episodes - 1):
-                    self.display.display_env(self.environment.arrows, actions_taken)
+                    self.display.display_env(self.environment.arrows, rewards_earned)
 
         return self.episode_rewards, self.episode_losses
 
