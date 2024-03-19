@@ -35,29 +35,33 @@ class Environment:
 
     def update_state(self, action):
         '''
-        :param action:
+        updates the state (the position of the feet and the arrows on screen)
+        based on the given action. also calculates the reward
+        :param action: action to be taken in list form
         :return: next state, reward, done
         '''
         previous_state = self.state
-        # store the new lf state at 0 and new rf state at 1
+        # derive new positions of feet based on the given action
         new_feet_state = self.take_action(action)
 
         # update the arrows for the new state (this may also change it to be a terminal state)
         updated_screen = self.update_arrows()
+        # updating screen may change done, so reassign
         done = self.done
 
         updated_state = State(new_feet_state[0], new_feet_state[1], updated_screen)
+
+        #calculate reward of the updated state
         reward = self.calc_reward(previous_state.get_array(), updated_state.get_array(), action)
+        #add reward to total rewards
         self.total_rewards += reward
 
-        # check if total rewards is less than the max negative reward
-
-        self.done = done
         self.state = updated_state
         return updated_state, reward, done
 
     def update_arrows(self):
         '''
+        updates the arrows that are currently on the screen by increasing the index
         :return: list of arrows
         '''
         screen = self.arrows[self.arrow_index:self.arrow_index + self.length]
@@ -69,8 +73,9 @@ class Environment:
     def calc_reward(self, state, next_state, action_taken):
         '''
         plus one if it hits the arrow
-        minus two for off board
+        minus one for off board
         minus one for wrong hit
+        no reward if nothing hit for a blank
         :param state:
         :param next_state:
         :param action_taken:
@@ -115,6 +120,11 @@ class Environment:
         return song
 
     def reset(self):
+        '''
+        reset the environment. generates new list of songss, reset state, set total rewards
+        to 0
+        :return:
+        '''
         self.done = 0
         # initialize arrows (hardcoded for now)
         self.arrows = self.generate_song(100)
@@ -127,6 +137,10 @@ class Environment:
         self.total_rewards = 0
 
     def take_action(self, action):
+        '''
+        :param action: action to be taken in list form
+        :return: the new state that the feet are in given the action
+        '''
         new_feet_state = []
         for i in range(len(action)):
             # no-op case
@@ -150,9 +164,19 @@ class Environment:
         return new_feet_state
 
     def guide_explore(self, state):
+        '''
+        implement guided exploration
+        :param state:
+        :return: action to be taken in list form
+        '''
+        # store the current state that the feet are in
         lf = state[0]
         rf = state[1]
+
+        #store the target arrow that we want to reach
         target_arrow = state[3]
+
+        #store all the possible states that could be valid for the target arrow
         target_states = self.arrow_dict.get(target_arrow)
 
         #iterate through every possible good state (should only ever be 3 max)

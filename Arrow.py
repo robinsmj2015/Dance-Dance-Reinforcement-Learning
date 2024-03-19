@@ -25,6 +25,12 @@ class Arrow:
             self.points.append(self.create_right(arrow_x, arrow_y))
 
     def create_up(self, arrow_x, arrow_y):
+        '''
+        create an up arrow
+        :param arrow_x:
+        :param arrow_y:
+        :return: a list of points to be drawn
+        '''
         points = [
             (arrow_x // 2 - self.width // 2 + 200, arrow_y // 2 + self.length - self.width + 20),
             (arrow_x // 2 - self.width // 2 + 200, arrow_y // 2 + 20),
@@ -37,6 +43,12 @@ class Arrow:
         return points
 
     def create_down(self, arrow_x, arrow_y):
+        '''
+                create a down arrow
+                :param arrow_x:
+                :param arrow_y:
+                :return: a list of points to be drawn
+                '''
         points = [
             (arrow_x - self.width // 2 + 115, arrow_y // 2 - self.length + self.width + 20),
             (arrow_x // 2 - self.width // 2 + 120, arrow_y // 2 + 20),
@@ -49,6 +61,12 @@ class Arrow:
         return points
 
     def create_left(self, arrow_x, arrow_y):
+        '''
+        create a left arrow
+        :param arrow_x:
+        :param arrow_y:
+        :return: a list of points to be drawn
+        '''
         points = [
             (arrow_x // 2 + self.length - self.width + 40, arrow_y // 2 - self.width // 2),
             (arrow_x // 2 + 40, arrow_y // 2 - self.width // 2),
@@ -61,6 +79,12 @@ class Arrow:
         return points
 
     def create_right(self, arrow_x, arrow_y):
+        '''
+                create a right arrow
+                :param arrow_x:
+                :param arrow_y:
+                :return: a list of points to be drawn
+                '''
         points = [
             (arrow_x // 2 - self.length + self.width + 280, arrow_y // 2 - self.width // 2),
             (arrow_x // 2 + 280, arrow_y // 2 - self.width // 2),
@@ -73,7 +97,12 @@ class Arrow:
         return points
 
     def create_blank(self, arrow_x, arrow_y):
-
+        '''
+                create a blank
+                :param arrow_x:
+                :param arrow_y:
+                :return: a list of points to be drawn
+                '''
         points = [
             (arrow_x // 2 + 380, arrow_y // 2 - self.width + 10), (arrow_x // 2 + 380, arrow_y //2), (arrow_x // 2+ 380 + self.length, arrow_y //2),
             (arrow_x // 2 + 380 + self.length, arrow_y // 2 - self.width + 10),
@@ -81,6 +110,10 @@ class Arrow:
         return points
 
     def update(self):
+        '''
+        updates the position of the arrow based on which arrow type it is
+        :return: a list of the arrow points to be drawn
+        '''
         self.points = []
         self.arrow_y += 3
         if self.arrow_type == "blank":
